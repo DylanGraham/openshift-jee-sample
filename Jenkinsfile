@@ -1,9 +1,17 @@
 try {
    timeout(time: 20, unit: 'MINUTES') {
       node('maven') {
-          stage('build') {
+          //stage('build') {
+          //  git url: "https://github.com/danmcp/openshift-jee-sample.git"
+          //  openshiftBuild(buildConfig: 'somethingcool', showBuildLogs: 'true')
+          //}
+          stage('test') {
             git url: "https://github.com/danmcp/openshift-jee-sample.git"
-            openshiftBuild(buildConfig: 'somethingcool', showBuildLogs: 'true')
+            //sh 'mvn verify'
+            sh "mvn clean"
+          }
+          stage('approval') {
+            input "Approve?"
           }
           stage('deploy') {
             openshiftDeploy(deploymentConfig: 'somethingcool')
