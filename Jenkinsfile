@@ -16,6 +16,12 @@ try {
           stage('deploy') {
             openshiftDeploy(deploymentConfig: 'somethingcool')
           }
+          stage('scale') {
+            openshiftScale(deploymentConfig: 'somethingcool', replicaCount: '2')
+          }
+          stage('system test') {
+            sh "curl http://somethingcool:8080 | grep WildFly"
+          }
         }
    }
 } catch (err) {
